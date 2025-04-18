@@ -6,14 +6,12 @@ class UserProfileDrawer extends StatelessWidget {
   final String name;
   final String email;
   final String? profileImageUrl;
-  final List<Widget>? drawerItems;
 
   const UserProfileDrawer({
     Key? key,
     required this.name,
     required this.email,
     this.profileImageUrl,
-    this.drawerItems,
   }) : super(key: key);
 
   @override
@@ -38,7 +36,6 @@ class UserProfileDrawer extends StatelessWidget {
               backgroundColor: Colors.blueGrey,
             ),
           ),
-          ...(drawerItems ?? []),
         ],
       ),
     );
