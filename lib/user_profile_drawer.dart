@@ -6,28 +6,35 @@ class UserProfileDrawer extends StatelessWidget {
   final String name;
   final String email;
   final String? profileImageUrl;
+  final Color? headerColor; // 🌈 NEW
 
   const UserProfileDrawer({
     Key? key,
     required this.name,
     required this.email,
     this.profileImageUrl,
+    this.headerColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final Color fallbackColor = headerColor ?? const Color(0xFF4e54c8);
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xFF4e54c8), Color(0xFF8f94fb)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              boxShadow: [
+            decoration: BoxDecoration(
+              gradient: headerColor == null
+                  ? const LinearGradient(
+                      colors: [Color(0xFF4e54c8), Color(0xFF8f94fb)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    )
+                  : null,
+              color: headerColor,
+              boxShadow: const [
                 BoxShadow(
                   color: Colors.black26,
                   blurRadius: 6,
@@ -37,7 +44,7 @@ class UserProfileDrawer extends StatelessWidget {
             ),
             child: UserAccountsDrawerHeader(
               decoration: const BoxDecoration(
-                color: Colors.transparent, // So gradient shows
+                color: Colors.transparent, // allows gradient or color to show
               ),
               accountName: Text(
                 name,
@@ -59,9 +66,9 @@ class UserProfileDrawer extends StatelessWidget {
                 child: profileImageUrl == null
                     ? Text(
                         _getInitials(name),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 22,
-                          color: Colors.deepPurple,
+                          color: fallbackColor,
                           fontWeight: FontWeight.bold,
                         ),
                       )
@@ -72,16 +79,6 @@ class UserProfileDrawer extends StatelessWidget {
 
           const Divider(),
 
-          ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text("Settings"),
-            onTap: () {},
-          ),
-          ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text("Logout"),
-            onTap: () {},
-          ),
         ],
       ),
     );
