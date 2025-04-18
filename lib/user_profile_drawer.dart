@@ -6,7 +6,8 @@ class UserProfileDrawer extends StatelessWidget {
   final String name;
   final String email;
   final String? profileImageUrl;
-  final Color? headerColor; // 🌈 NEW
+  final Color? headerColor;
+  final Color? textColor; // 🆕 text color
 
   const UserProfileDrawer({
     Key? key,
@@ -14,11 +15,13 @@ class UserProfileDrawer extends StatelessWidget {
     required this.email,
     this.profileImageUrl,
     this.headerColor,
+    this.textColor, // 🆕
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final Color fallbackColor = headerColor ?? const Color(0xFF4e54c8);
+    final Color fallbackHeaderColor = headerColor ?? const Color(0xFF4e54c8);
+    final Color fallbackTextColor = textColor ?? Colors.white; // 🆕
 
     return Drawer(
       child: ListView(
@@ -44,18 +47,22 @@ class UserProfileDrawer extends StatelessWidget {
             ),
             child: UserAccountsDrawerHeader(
               decoration: const BoxDecoration(
-                color: Colors.transparent, // allows gradient or color to show
+                color: Colors.transparent,
               ),
               accountName: Text(
                 name,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
+                  color: fallbackTextColor, // 🆕
                 ),
               ),
               accountEmail: Text(
                 email,
-                style: const TextStyle(fontSize: 14),
+                style: TextStyle(
+                  fontSize: 14,
+                  color: fallbackTextColor, // 🆕
+                ),
               ),
               currentAccountPicture: CircleAvatar(
                 radius: 30,
@@ -68,7 +75,7 @@ class UserProfileDrawer extends StatelessWidget {
                         _getInitials(name),
                         style: TextStyle(
                           fontSize: 22,
-                          color: fallbackColor,
+                          color: fallbackHeaderColor,
                           fontWeight: FontWeight.bold,
                         ),
                       )
@@ -78,7 +85,6 @@ class UserProfileDrawer extends StatelessWidget {
           ),
 
           const Divider(),
-
         ],
       ),
     );
@@ -86,7 +92,7 @@ class UserProfileDrawer extends StatelessWidget {
 
   static String _getInitials(String name) {
     final parts = name.trim().split(' ');
-    if (parts.length == 1) return parts[0][0];
-    return parts[0][0] + parts[1][0];
+    if (parts.length == 1) return parts[0][0].toUpperCase();
+    return (parts[0][0] + parts[1][0]).toUpperCase();
   }
 }
